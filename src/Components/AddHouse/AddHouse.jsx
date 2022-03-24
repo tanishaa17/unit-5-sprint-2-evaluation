@@ -1,73 +1,68 @@
-import axios from "axios";
+import  axios  from 'axios';
 import { useEffect, useState } from "react";
 
-export const AddHouse = () => {
-  const [house, setHouse] = useState({
+export const AddHouse = (props) => {
+  const [formData, setFormdata] = useState({
     name: "",
     ownerName: "",
     address: "",
     areaCode: "",
     rent: "",
-    preferred: "",
-  })
-  useEffect(() => [
-    getData()
-  ], []);
-  const [houseData, setHouseData] = useState([]);
+    bachelor: "",
+    married: "",
+    image: "",
+  });
+
   function handleChange(e) {
-    const { id, value } = e.target;
-    setHouse({ ...house, [id]: value });
-  }
-  function getData() {
-    axios.get("http://localhost:8080/houses").then((res) => [
-      setHouseData(res.data)
-    ])
-  }
+    const { className, value } = e.target;
+    setFormdata({...formData, [className]: value })
+  }  
+  const getData = props.getData;
   function handleSubmit(e) {
     e.preventDefault();
-    axios.post("http://localhost:8080/houses", house).then(() => {
-      alert("House Added Successfully")
+    axios.post("http://localhost:8080/houses", formData).then(() => {
+      alert("House added");
       getData()
-      setHouse({
+      setFormdata({
         name: "",
         ownerName: "",
         address: "",
         areaCode: "",
         rent: "",
-        preferred: "",
+        bachelor: "",
+        married: "",
+        image: "",
       })
     })
-  }
-
-
+  }  
   return (
     <div className="addHouseContainer">
       <form onSubmit={handleSubmit}>
         <label>name</label>
-        <input onChange={handleChange} type="text" className="name" required />
+        <input type="text" onChange = {handleChange} className="name" value={formData.name} required />
         <br />
         <label>ownerName</label>
-        <input onChange={handleChange} type="text" className="ownerName" required />
+        <input value={formData.ownerName} type="text" onChange = {handleChange} className="ownerName" required />
         <br />
         <label>address</label>
-        <input onChange={handleChange} type="text" className="address" required />
+        <input value={formData.address} type="text" onChange = {handleChange} className="address" required />
         <br />
         <label>areaCode</label>
-        <input onChange={handleChange} type="text" className="areaCode" required />
+        <input value={formData.areaCode} type="text" onChange = {handleChange} className="areaCode" required />
         <br />
         <label>rent</label>
-        <input onChange={handleChange} type="text" className="rent" required />
+        <input value={formData.rent} type="text" onChange = {handleChange} className="rent" required />
         <br />
         <label>preferredTenant</label>
         <br />
         <label>bachelor</label>
-        <input onChange={handleChange} type="checkbox" className="bachelor" />
+        <input checked={formData.bachelor} type="checkbox" onChange = {handleChange} className="bachelor" />
         <br />
         <label>married</label>
-        <input onChange={handleChange} type="checkbox" className="married" />
+        <input checked={formData.married} type="checkbox" onChange = {handleChange} className="married" />
         <br />
         <label>image</label>
-        <input onChange={handleChange} type="text" className="image" required />
+        <input value={formData.image} type="text" onChange = {handleChange} className="image" required />
         <br />
         <input className="submitBtn" type="submit" />
       </form>
